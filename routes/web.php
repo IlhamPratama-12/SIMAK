@@ -5,24 +5,25 @@ use App\Http\Controllers\SiswaMiController;
 use App\Http\Controllers\GuruMiController;
 use App\Http\Controllers\PembayaranMiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// ================== DASHBOARD ==================
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-// ================== ADMIN DAN GURU MI==================
+// ================== ADMIN DAN GURU MI ==================
 Route::middleware(['auth', 'role:admin|guru_mi'])->group(function () {
     Route::resource('siswa-mi', SiswaMiController::class);
     Route::resource('guru-mi', GuruMiController::class);
     Route::resource('pembayaran-mi', PembayaranMiController::class);
-    Route::get('pembayaran-mi/{id}/kwitansi', [PembayaranMiController::class, 'kwitansi'])->name('pembayaran-mi.kwitansi');
-
+    Route::get('pembayaran-mi/{id}/kwitansi', [PembayaranMiController::class, 'kwitansi'])
+        ->name('pembayaran-mi.kwitansi');
 });
-
 
 // ================== PROFILE ==================
 Route::middleware('auth')->group(function () {
