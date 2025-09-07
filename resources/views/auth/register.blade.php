@@ -24,51 +24,29 @@
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
       @csrf
 
+      <!-- NIP -->
+      <div>
+        <input id="nip" name="nip" type="text" value="{{ old('nip') }}" required
+          placeholder="NIP"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none">
+      </div>
+
       <!-- Name -->
       <div>
-        <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus autocomplete="name"
+        <input id="name" name="name" type="text" value="{{ old('name') }}" required
           placeholder="Full Name"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none">
       </div>
 
       <!-- Email -->
       <div>
-        <input id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="username"
+        <input id="email" name="email" type="email" value="{{ old('email') }}" required
           placeholder="Email"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none">
       </div>
 
-      <!-- Password -->
-      <div class="relative">
-        <input id="password" name="password" type="password" required autocomplete="new-password"
-          placeholder="Password"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none">
-        <button type="button" onclick="togglePassword('password', this)" 
-          class="absolute right-3 top-2.5 text-gray-500 hover:text-sky-600">
-          👁
-        </button>
-      </div>
-
-      <!-- Confirm Password -->
-      <div class="relative">
-        <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
-          placeholder="Confirm Password"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none">
-        <button type="button" onclick="togglePassword('password_confirmation', this)" 
-          class="absolute right-3 top-2.5 text-gray-500 hover:text-sky-600">
-          👁
-        </button>
-      </div>
-
-      <!-- Role -->
-      <div>
-        <select id="role" name="role" required
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none">
-          <option value="">-- Select Jabatan --</option>
-          <option value="guru_tk">Guru TK</option>
-          <option value="guru_mi">Guru MI</option>
-        </select>
-      </div>
+      <!-- Info -->
+      <p class="text-sm text-gray-500">Password default akan dikirim oleh admin ke email Anda setelah disetujui.</p>
 
       <!-- Button -->
       <button type="submit"
@@ -91,20 +69,6 @@
       </a>
     </div>
   </div>
-
-  <!-- Script Eye Toggle -->
-  <script>
-    function togglePassword(id, btn) {
-      const input = document.getElementById(id);
-      if (input.type === "password") {
-        input.type = "text";
-        btn.textContent = "🙈";
-      } else {
-        input.type = "password";
-        btn.textContent = "👁";
-      }
-    }
-  </script>
 
 </body>
 </html>

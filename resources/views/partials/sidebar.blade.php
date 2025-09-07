@@ -28,6 +28,8 @@
 
     <hr class="sidebar-divider my-2">
 
+    {{-- Menu khusus Admin --}}
+    @role('admin')
     <div class="sidebar-heading px-3 text-uppercase text-white fw-bold sidebar-text" style="font-size:0.85rem; opacity:0.8;">
         Manajemen MI
     </div>
@@ -55,6 +57,35 @@
             <span class="sidebar-text">Administrasi</span>
         </a>
     </li>
+    @endrole
+
+    {{-- Menu khusus Guru TK --}}
+    @role('guru_tk')
+    <div class="sidebar-heading px-3 text-uppercase text-white fw-bold sidebar-text" style="font-size:0.85rem; opacity:0.8;">
+        Guru TK
+    </div>
+
+    <li class="nav-item {{ request()->is('absensi-tk*') ? 'active' : '' }}">
+        <a class="nav-link d-flex align-items-center py-2 px-3 rounded hover-bg-light" href="{{ url('/absensi-tk') }}">
+            <i class="fas fa-calendar-check me-2"></i>
+            <span class="sidebar-text">Absensi</span>
+        </a>
+    </li>
+    @endrole
+
+    {{-- Menu khusus Guru MI --}}
+    @role('guru_mi')
+    <div class="sidebar-heading px-3 text-uppercase text-white fw-bold sidebar-text" style="font-size:0.85rem; opacity:0.8;">
+        Guru MI
+    </div>
+
+    <li class="nav-item {{ request()->is('absensi-mi*') ? 'active' : '' }}">
+        <a class="nav-link d-flex align-items-center py-2 px-3 rounded hover-bg-light" href="{{ url('/absensi-mi') }}">
+            <i class="fas fa-calendar-check me-2"></i>
+            <span class="sidebar-text">Absensi</span>
+        </a>
+    </li>
+    @endrole
 </ul>
 
 <!-- Tombol Toggle -->
@@ -90,18 +121,15 @@
         z-index: 999;
     }
 
-    /* Mode collapsed → geser keluar layar */
     .sidebar.collapsed {
         transform: translateX(-100%);
     }
 
-    /* Text hilang smooth */
     .sidebar.collapsed .sidebar-text {
         opacity: 0;
         transition: opacity 0.2s ease;
     }
 
-    /* Konten utama responsif */
     #content-wrapper {
         margin-left: 220px; 
         transition: margin-left 0.3s ease;

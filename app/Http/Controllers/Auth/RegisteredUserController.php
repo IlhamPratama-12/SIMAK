@@ -4,18 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Show register form
      */
     public function create(): View
     {
@@ -23,34 +19,25 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Store new user (pending approval)
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validasi input termasuk role
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'string', 'in:admin,guru_tk,guru_mi'], // validasi role
+            'nip'   => ['required', 'string', 'max:50', 'unique:users,nip'],
+            'name'  => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
         ]);
 
-        // Buat user baru
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        User::create([
+            'nip'     => $request->nip,
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'password'=> bcrypt('default123'), // dummy password
+            'status'  => 'pending',
         ]);
 
-        // Assign role langsung (pastikan Spatie Roles & Permissions sudah terpasang)
-        $user->assignRole($request->role);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('login')
+            ->with('status', 'Registrasi berhasil. Menunggu persetujuan admin.');
     }
 }
